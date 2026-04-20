@@ -2,10 +2,12 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Logger } from '@nest
 import { Response } from 'express';
 import {
   DuplicateProductNameError,
+  DuplicateUserEmailError,
   InsufficientStockError,
   InvalidSaleStateError,
   ProductNotFoundError,
   SaleNotFoundError,
+  UserNotFoundError,
 } from '../../../domain/errors/domain-errors';
 
 @Catch()
@@ -20,13 +22,18 @@ export class DomainExceptionFilter implements ExceptionFilter {
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal Server Error';
 
-    if (exception instanceof ProductNotFoundError || exception instanceof SaleNotFoundError) {
+    if (
+      exception instanceof ProductNotFoundError ||
+      exception instanceof SaleNotFoundError ||
+      exception instanceof UserNotFoundError
+    ) {
       status = HttpStatus.NOT_FOUND;
       message = exception.message;
     } else if (
       exception instanceof InsufficientStockError ||
       exception instanceof InvalidSaleStateError ||
-      exception instanceof DuplicateProductNameError
+      exception instanceof DuplicateProductNameError ||
+      exception instanceof DuplicateUserEmailError
     ) {
       status = HttpStatus.CONFLICT;
       message = exception.message;

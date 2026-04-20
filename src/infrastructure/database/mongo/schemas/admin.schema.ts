@@ -17,6 +17,12 @@ export class Admin {
 
   @Prop({ required: true, enum: AdminRole, default: AdminRole.ADMIN })
   role: string;
+
+  @Prop({ required: false })
+  name: string;
+
+  @Prop({ required: true, default: true })
+  mustChangePassword: boolean;
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);

@@ -9,5 +9,7 @@ export class Admin {
     public email: string,
     public passwordHash: string,
     public role: AdminRole,
+    public name?: string,
+    public mustChangePassword: boolean = true,
   ) {}
 }

@@ -40,6 +40,20 @@ export class InvalidQuantityError extends Error {
   }
 }
 
+export class UserNotFoundError extends Error {
+  constructor(id: string) {
+    super(`User with ID ${id} not found`);
+    this.name = 'UserNotFoundError';
+  }
+}
+
+export class DuplicateUserEmailError extends Error {
+  constructor(email: string) {
+    super(`Ya existe un usuario con el correo "${email}". Por favor, utiliza otro correo electrónico.`);
+    this.name = 'DuplicateUserEmailError';
+  }
+}
+
 export class DuplicateProductNameError extends Error {
   constructor(name: string) {
     super(

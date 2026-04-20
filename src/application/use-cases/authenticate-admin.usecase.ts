@@ -8,20 +8,13 @@ export class AuthenticateAdmin {
     private readonly hasher: Hasher,
   ) {}
 
-  async execute(email: string, password: string): Promise<{ id: string; role: AdminRole }> {
+  async execute(email: string, password: string): Promise<{ id: string; role: AdminRole; mustChangePassword: boolean }> {
     const admin = await this.adminRepository.findByEmail(email);
-    if (!admin) {
-      console.log('Admin not found for email:', email);
-      throw new Error('Invalid credentials');
-    }
+    if (!admin) throw new Error('Invalid credentials');
 
     const isValid = await this.hasher.compare(password, admin.passwordHash);
-    console.log('Password valid:', isValid);
-    if (!isValid) {
-      console.log('Invalid password');
-      throw new Error('Invalid credentials');
-    }
+    if (!isValid) throw new Error('Invalid credentials');
 
-    return { id: admin.id, role: admin.role };
+    return { id: admin.id, role: admin.role, mustChangePassword: admin.mustChangePassword };
   }
 }
